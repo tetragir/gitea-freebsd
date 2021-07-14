@@ -1,0 +1,6 @@
+---
+- name: Restart Gitea
+  service:
+    name: gitea
+    state: restarted
+  listen: restart_gitea

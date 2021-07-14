@@ -1,0 +1,74 @@
+{{ ansible_managed | comment }}
+
+APP_NAME = {{ gitea.name }}
+RUN_USER = git
+RUN_MODE = prod
+
+[database]
+DB_TYPE  = sqlite3
+HOST     = 127.0.0.1:3306
+NAME     = gitea
+PASSWD   =
+PATH     = /var/db/gitea/gitea.db
+SSL_MODE = disable
+USER     = root
+
+[indexer]
+ISSUE_INDEXER_PATH = /var/db/gitea/indexers/issues.bleve
+
+[log]
+ROOT_PATH = /var/log/gitea
+MODE      = file
+LEVEL     = Info
+
+[mailer]
+ENABLED = {{ gitea.smtp.enabled }}
+MAILER_TYPE = smtp
+HOST = {{ gitea.smtp.server }}:{{ gitea.smtp.port }}
+FROM = {{ gitea.smtp.sender }}
+USER = {{ gitea.smtp.username }}
+PASSWD = {{ gitea.smtp.password }}
+
+[oauth2]
+ENABLE = false
+
+[picture]
+AVATAR_UPLOAD_PATH      = /var/db/gitea/data/avatars
+DISABLE_GRAVATAR        = false
+ENABLE_FEDERATED_AVATAR = false
+
+[repository]
+ROOT = /var/db/gitea/gitea-repositories
+# Gitea's default is 'bash', so if you have bash installed, you can comment
+# this out.
+SCRIPT_TYPE = sh
+
+[repository.upload]
+TEMP_PATH = /var/db/gitea/data/tmp/uploads
+
+[security]
+INSTALL_LOCK = true
+INTERNAL_TOKEN = 
+SECRET_KEY   = 
+
+[session]
+PROVIDER = file
+PROVIDER_CONFIG = /var/db/gitea/data/sessions
+
+[server]
+DOMAIN       = {{ gitea.domain }}
+HTTP_ADDR    = 0.0.0.0
+HTTP_PORT    = 3000
+ROOT_URL     = {{ gitea.root_url }}
+DISABLE_SSH  = false
+SSH_DOMAIN   = %(DOMAIN)s
+SSH_PORT     = 22
+OFFLINE_MODE = false
+APP_DATA_PATH = /var/db/gitea/data
+
+[service]
+REGISTER_EMAIL_CONFIRM = {{ gitea.email_confirm }}
+ENABLE_NOTIFY_MAIL     = true
+DISABLE_REGISTRATION   = false
+ENABLE_CAPTCHA         = false
+REQUIRE_SIGNIN_VIEW    = true

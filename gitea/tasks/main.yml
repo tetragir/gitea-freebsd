@@ -1,0 +1,20 @@
+---
+- name: Install Gitea
+  package:
+    name: www/gitea
+    state: present
+
+- name: Copy Gitea Configuration file
+  template:
+    src: app.ini.j2
+    dest: /usr/local/etc/gitea/conf/app.ini
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify: restart_gitea
+
+- name: Make sure Gitea Service is running
+  service:
+    name: gitea
+    state: started
+    enabled: yes
